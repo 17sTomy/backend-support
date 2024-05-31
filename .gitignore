@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+env/
+venv/
+.env
+.venv
+
+# Django
+*.log
+db.sqlite3
+*.sqlite3
+media/
+
+# Editor
+.vscode/
+
+# Dependency files
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+
+# Others
+*.pyc
+*.pyo
+*.pyc
+__pycache__/
+*.db
+*.sqlite
+*.swp
