@@ -35,7 +35,7 @@ class LoginAPIView(APIView):
             "user": serializer.data
         })
 
-class UpdateProfileAPIView(RetrieveUpdateAPIView):
+class ProfileAPIView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
