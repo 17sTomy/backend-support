@@ -28,7 +28,7 @@ class GenerateCSVView(APIView):
     def post(self, request, *args, **kwargs):
         return Response("CSV generated", status=status.HTTP_200_OK)
 
-def get_emotions(self, url, files=None):
+def get_emotions(url, files=None):
     client = HumeBatchClient(settings.HUME_API_KEY)
     burst_config = BurstConfig()
     prosody_config = ProsodyConfig()
@@ -48,12 +48,12 @@ def get_emotions(self, url, files=None):
         }
     return response_data
 
-def process_youtube_url(self, url):
+def process_youtube_url(url):
     output_file = os.path.join(os.getcwd(), "audio_file.mp3")
     subprocess.run(["yt-dlp", "-x", "--audio-format", "mp3", "-o", output_file, url], check=True)
     return output_file
   
-def extract_overall_emotions(self, predictions):
+def extract_overall_emotions(predictions):
     output = []
     for prediction in predictions:
         prosody_emotions = []
