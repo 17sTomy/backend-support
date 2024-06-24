@@ -13,7 +13,6 @@ class AudioFileAPIView(APIView):
         account_name = os.getenv('ACCOUNT_NAME')
         account_key = os.getenv('ACCOUNT_KEY')
         container_name = os.getenv('CONTAINER_NAME')
-
         self.azure_blob_uploader = AzureBlobUploader(account_name, account_key, container_name)
 
     def post(self, request, *args, **kwargs):        
