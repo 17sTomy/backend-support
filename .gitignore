@@ -23,7 +23,8 @@ package-lock.json
 yarn.lock
 
 # Environment variables
-.env
+*.env
+
 
 # Others
 *.pyc
@@ -33,3 +34,4 @@ __pycache__/
 *.db
 *.sqlite
 *.swp
+azureuser.env
