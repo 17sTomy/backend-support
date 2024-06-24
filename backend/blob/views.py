@@ -3,13 +3,16 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from backend.azureUpdate import AzureBlobUploader
+from dotenv import load_dotenv
+import os
 
 class AudioFileAPIView(APIView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        account_name = 'suportplus'
-        account_key = '5ZcfhelbpOBLQcKWS3DRdg9pqZXzCR7s/4axJQ8Kkufu6TMJI6Gdqt8lSDvWEP6B5dW1o0D9Apj7+AStJ3i46Q=='
-        container_name = 'user'
+        load_dotenv()
+        account_name = os.getenv('ACCOUNT_NAME')
+        account_key = os.getenv('ACCOUNT_KEY')
+        container_name = os.getenv('CONTAINER_NAME')
 
         self.azure_blob_uploader = AzureBlobUploader(account_name, account_key, container_name)
 
