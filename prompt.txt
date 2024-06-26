@@ -1,0 +1,18 @@
+Based on the provided transcript, analyze the conversation to determine if the support request was successful. Include metrics and key highlights in your analysis. Here are the metrics and elements you must include:
+
+1.	Customer Satisfaction and Sentiment Analysis:
+•	Overall Sentiment: Determine if the interaction was positive, neutral, or negative.
+•	Emotional Highlights: Extract and highlight significant emotions expressed during the call, such as frustration, satisfaction, or confusion.
+2.	Service Efficiency and Resolution:
+•	Resolution Status: Identify if the customer’s issue was resolved during the call.
+•	Time to Resolution: Measure the duration of the interaction to see how long it took to resolve the issue.
+•	Follow-up Required: Detect if any follow-up actions were mentioned or if further support is needed.
+3.	Common Issues and Trends:
+•	Issue Categorization: Classify the types of issues customers are facing (e.g., billing, technical support, product inquiries).
+•	Frequency of Issues: Track the most common problems to identify recurring issues that may need addressing.
+4.	Agent Performance:
+•	Politeness and Professionalism: Analyze the language used by support agents to ensure they are maintaining a professional and courteous tone.
+•	Problem-Solving Skills: Evaluate how effectively the agent addressed and resolved the customer’s issue.
+5.	Customer Feedback Themes:
+•	Positive Feedback: Identify and highlight positive comments about the service or product.
+•	Negative Feedback: Extract complaints or suggestions for improvement.
