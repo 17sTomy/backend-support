@@ -41,6 +41,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("users.urls")),
     path("AI/", include("AI.urls")),
+    path("blob/", include("blob.urls")),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
