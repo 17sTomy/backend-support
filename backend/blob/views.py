@@ -4,7 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from backend.azureUpdate import AzureBlobUploader
 from dotenv import load_dotenv
+from datetime import datetime
 import os
+import utils
+
 
 class AudioFileAPIView(APIView):
     def __init__(self, **kwargs):
@@ -23,10 +26,10 @@ class AudioFileAPIView(APIView):
             
             try:
                 self.azure_blob_uploader.upload_file(file, file_name)
-                pass
             except Exception as e:
                 return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            return Response({"message": f"Archivo {file_name} subido exitosamente."}, status=status.HTTP_201_CREATED)
+        return Response({'message': 'Audio Añadido'}, status=status.HTTP_201_CREATED)
+            
         
     def get(self, request):
         file_name = request.query_params.get('file_name')
