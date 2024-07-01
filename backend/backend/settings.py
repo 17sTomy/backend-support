@@ -19,6 +19,7 @@ load_dotenv()
 HUME_API_KEY = os.getenv("HUME_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
+MONGODB_URL = os.getenv("MONGODB_URL")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
