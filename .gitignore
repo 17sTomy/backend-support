@@ -25,6 +25,7 @@ yarn.lock
 # Environment variables
 .env
 
+
 # Others
 *.pyc
 *.pyo

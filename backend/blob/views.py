@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from azure.storage.blob import generate_blob_sas, BlobSasPermissions
 import os
+import utils
 
 
 class AudioFileAPIView(APIView):
@@ -32,7 +33,6 @@ class AudioFileAPIView(APIView):
 
             try:
                 self.azure_blob_uploader.upload_file(file, file_name)
-                pass
             except Exception as e:
                 return Response(
                     {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
