@@ -43,3 +43,14 @@ class AudioFileAPIView(APIView):
             return Response({'audio_url': audio_url}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def generate_file_url(self, file_name):
+        sas_token = generate_blob_sas(
+            account_name=self.account_name,
+            account_key=self.account_key,
+            container_name=self.container_name,
+            blob_name=file_name,
+            permission=BlobSasPermissions(read=True),
+            expiry=datetime.utcnow() + timedelta(hours=1),
+        )
+        return f"https://{self.account_name}.blob.core.windows.net/{self.container_name}/{file_name}?{sas_token}"
