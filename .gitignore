@@ -34,5 +34,9 @@ __pycache__/
 *.db
 *.sqlite
 *.swp
+audio_file.mp3
+full_predictions.json
+min_conversation.json
+output.txt
 **/__pycache__/
 **/*.pyc
