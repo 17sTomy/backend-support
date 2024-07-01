@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "blob",
     "cronjob",
     # 'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
+    'blob'
 ]
 
 MIDDLEWARE = [

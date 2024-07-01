@@ -1,5 +1,6 @@
 # emotion_analysis/views.py
 import os
+import re
 import subprocess
 import json
 import requests
@@ -14,6 +15,11 @@ from .serializers import (
 )
 from hume import HumeBatchClient
 from hume.models.config import BurstConfig, ProsodyConfig
+from collections import Counter
+import datetime
+from db import get_db
+from rest_framework.decorators import api_view
+from bson.json_util import dumps
 
 class EmotionAnalysisView(APIView):
     def post(self, request, *args, **kwargs):
@@ -29,45 +35,40 @@ class EmotionAnalysisView(APIView):
             output_data = ""
             for text_block in response_data:
                 output_data += text_block.text + "\n"
-
+        
             file_path = os.path.join(os.getcwd(), "output.txt")
             with open(file_path, "w") as f:
                 f.write(output_data)
-
+            
             print(f"Response saved to {file_path}")
+            dateTime = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            json_file = extract_json_from_text(file_path, dateTime)
+        
 
-            return Response(response_data, status=status.HTTP_200_OK)
+            db = get_db()
+            people_collection = db['summary_results']
+            people_collection.insert_one(json_file)
+
+            return Response(output_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 class GenerateCSVView(APIView):
     def post(self, request, *args, **kwargs):
         return Response("CSV generated", status=status.HTTP_200_OK)
 
-# No usar, solo para pruebas
-class EmotionAnalysisWithAPI(APIView):
-    def post(self, request, *args, **kwargs):
-        url = request.data.get("url")
-        api_url = "https://api.hume.ai/v0/batch/jobs"
-        data = {
-            "urls": [api_url],
-            "prosody": {
-              "identify_speakers": "true"
-            },
-            "transcription": {
-              "identify_speakers": "true"
-            },
-        }
-        headers = {
-            "Content-Type": "application/json",
-            "X-Hume-Api-Key": settings.HUME_API_KEY,
-        }
-        response = requests.post(api_url, json=data, headers=headers)
+@api_view(['GET'])
+def get_summary_results(request):
+    db = get_db()
+    collection = db['summary_results']
 
-        if response.status_code == 200:
-            return JsonResponse(response.json())
-        else:
-            return JsonResponse({"error": "Failed to send POST request"}, status=response.status_code)
-
+    try:
+        documents = list(collection.find())
+        for doc in documents:
+            doc['_id'] = str(doc['_id'])
+        
+        return Response(documents, status=status.HTTP_200_OK, content_type='application/json')
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def get_emotions(url, files=None):
     client = HumeBatchClient(settings.HUME_API_KEY)
@@ -141,3 +142,18 @@ def reduce_emotions(data, emotions_count=5):
         output_data.append(entry)
     return output_data
 
+def extract_json_from_text(file_path, date):
+    with open(file_path, 'r') as file:
+        text = file.read()
+    
+    # Usar una expresión regular para encontrar el contenido JSON
+    json_match = re.search(r'{.*}', text, re.DOTALL)
+    
+    if json_match:
+        json_str = json_match.group(0)
+        json_obj = json.loads(json_str)
+        with open(f'jsons/output{date}.json', "w") as f:
+            json.dump(json_obj, f, indent=4)    
+        return json_obj
+    else:
+        return None

@@ -1,0 +1,31 @@
+{
+  "topEmotions": [
+    {
+      "Emotion": "Determination",
+      "Score": 0.23519840836524963
+    },
+    {
+      "Emotion": "Concentration",
+      "Score": 0.2191956639289856
+    },
+    {
+      "Emotion": "Anger",
+      "Score": 0.18814623355865479
+    },
+    {
+      "Emotion": "Distress",
+      "Score": 0.16163958609104156
+    },
+    {
+      "Emotion": "Interest",
+      "Score": 0.1548043191432953
+    }
+  ],
+  "resolved": false,
+  "issueType": "Soporte",
+  "performanceReview": 0.65,
+  "timeInCall": 474.945,
+  "date": "2023-06-08",
+  "summary": "Un cliente llama al soporte t�cnico con problemas para hacer funcionar la autenticaci�n biom�trica en su nueva impresora. El agente de atenci�n al cliente inicial no puede ayudar y transfiere la llamada a un especialista de TI. El especialista intenta guiar al cliente a trav�s de usar una tarjeta de acceso en lugar de la autenticaci�n biom�trica, pero el cliente se frustra cada vez m�s por la falta de una soluci�n. El especialista no logra resolver completamente el problema del cliente con la impresora antes de que termine la llamada."
+}
+
