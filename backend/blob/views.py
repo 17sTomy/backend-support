@@ -2,13 +2,19 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from backend.azureUpdate import AzureBlobUploader
+from blob.azureUpdate import AzureBlobUploader
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from azure.storage.blob import generate_blob_sas, BlobSasPermissions
+import blob.mongoResourceDB as mongoResourceDB
 import os
-import utils
+import logging
+from rest_framework.decorators import api_view
 
+# Configurar el logger
+logger = logging.getLogger(__name__)
+
+MONGODB = mongoResourceDB.MongoCommands()
 
 class AudioFileAPIView(APIView):
     def __init__(self, **kwargs):
@@ -34,7 +40,7 @@ class AudioFileAPIView(APIView):
             try:
                 self.azure_blob_uploader.upload_file(file, file_name)
                 audio_url = self.azure_blob_uploader.generate_file_url(file_name)
-                utils.insert_into_db(file_name= file_name, audio_url= audio_url)
+                MONGODB.insert_into_db(file_name= file_name, audio_url= audio_url)
             except Exception as e:
                 return Response(
                     {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -43,6 +49,7 @@ class AudioFileAPIView(APIView):
                 {"message": f"Archivo {file_name} subido exitosamente."},
                 status=status.HTTP_201_CREATED,
             )
+
 
     def get(self, request):
         file_name = request.query_params.get("file_name")
@@ -72,3 +79,40 @@ class AudioFileAPIView(APIView):
             expiry=datetime.utcnow() + timedelta(hours=1),
         )
         return f"https://{self.account_name}.blob.core.windows.net/{self.container_name}/{file_name}?{sas_token}"
+
+
+@api_view(["GET"])    
+def get_all_calls(request):
+    db = MONGODB.get_db()
+    collection = db["calls"]
+    try:
+        documents = list(collection.find())
+        for doc in documents:
+            doc["_id"] = str(doc["_id"])
+        return Response(documents, status=200, content_type="application/json")
+    except Exception as e:
+        return Response({'error': 'No data found'}, status=404)
+
+@api_view(["GET"])  
+def get_all_detailed_results(request):
+    db = MONGODB.get_db()
+    collection = db["detailed_results"]
+    try:
+        documents = list(collection.find())
+        for doc in documents:
+            doc["_id"] = str(doc["_id"])
+        return Response(documents, status=200, content_type="application/json")
+    except Exception as e:
+        return Response({'error': 'No data found'}, status=404)
+
+@api_view(["GET"])  
+def get_all_summary_results(request):
+    db = MONGODB.get_db()
+    collection = db["summary_results"]
+    try:
+        documents = list(collection.find())
+        for doc in documents:
+            doc["_id"] = str(doc["_id"])
+        return Response(documents, status=200, content_type="application/json")
+    except Exception as e:
+        return Response({'error': 'No data found'}, status=404)
