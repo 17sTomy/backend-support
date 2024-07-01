@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from pymongo import MongoClient
-import datetime
+from datetime import datetime
 
 #DB
 def get_db():
@@ -13,17 +13,21 @@ def get_db():
 
 def insert_into_db(file_name, audio_url):
     db = get_db()
-    current_datetime = datetime.now()
-    current_date = current_datetime.date()
+    actual_fecha = datetime.now()
+    fecha = actual_fecha.date()
+    fecha = fecha.isoformat()
     calls_collection = db['calls']
     
     call_document = {
         'filename': file_name,
         'url': audio_url,
-        'date': current_date,
+        'date': fecha,
         'estado': 'Pendiente'
     }
     calls_collection.insert_one(call_document)
+    
+def get_estimated_timecall():
+    pass
 
 #Serializar
 class CallSerializer(serializers.Serializer):
