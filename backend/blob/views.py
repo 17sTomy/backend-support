@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from backend.azureUpdate import AzureBlobUploader
 from dotenv import load_dotenv
-from datetime import datetime
 import os
 import utils
 
@@ -26,6 +25,8 @@ class AudioFileAPIView(APIView):
             
             try:
                 self.azure_blob_uploader.upload_file(file, file_name)
+                audio_url = self.azure_blob_uploader.generate_file_url(file_name)
+                utils.insert_into_db(file_name= file_name, audio_url= audio_url)
             except Exception as e:
                 return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({'message': 'Audio Añadido'}, status=status.HTTP_201_CREATED)
