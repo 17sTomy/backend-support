@@ -18,6 +18,8 @@ from hume.models.config import BurstConfig, ProsodyConfig
 from collections import Counter
 import datetime
 from db import get_db
+from rest_framework.decorators import api_view
+from bson.json_util import dumps
 
 class EmotionAnalysisView(APIView):
     def post(self, request, *args, **kwargs):
@@ -54,7 +56,19 @@ class GenerateCSVView(APIView):
     def post(self, request, *args, **kwargs):
         return Response("CSV generated", status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def get_summary_results(request):
+    db = get_db()
+    collection = db['summary_results']
 
+    try:
+        documents = list(collection.find())
+        for doc in documents:
+            doc['_id'] = str(doc['_id'])
+        
+        return Response(documents, status=status.HTTP_200_OK, content_type='application/json')
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def get_emotions(url, files=None):
     client = HumeBatchClient(settings.HUME_API_KEY)
