@@ -1,0 +1,24 @@
+Based on the provided information, generate a JSON object or file with the following structure:
+
+- **topEmotions:** A list of dictionaries (max: 5), where each dictionary contains:
+  - `Emotion`: A string representing the emotion.
+  - `Score`: A numerical value representing the score of the emotion.
+
+- **resolved:** A boolean value that can be either `True` or `False`.
+
+- **issueType:** An enumeration with the possible values "Incidencia", "Soporte", or "Consulta".
+
+- **performanceReview:** A numerical value between 0.0 and 1.0.
+
+- **timeInCall:** A numerical value representing the time in call.
+
+- **date:** A date value.
+
+-**summary:** a call summary in Spanish. 
+
+**Example JSON Structure:**
+
+
+Please generate a JSON object following this structure. Thank you. Just give me the json file
+
+---

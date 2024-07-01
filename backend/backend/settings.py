@@ -49,9 +49,6 @@ INSTALLED_APPS = [
     "AI",
     "drf_yasg",
     # 'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
-    'drf_yasg',
-
-    'users',
     'blob'
 ]
 
