@@ -19,6 +19,10 @@ load_dotenv()
 HUME_API_KEY = os.getenv("HUME_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
+MONGODB_URL = os.getenv("MONGODB_URL")
+AZURE_ACCOUNT_NAME = os.getenv("ACCOUNT_NAME")
+AZURE_ACCOUNT_KEY = os.getenv("ACCOUNT_KEY")
+AZURE_STORAGE_CONTAINER_NAME = os.getenv("CONTAINER_NAME")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

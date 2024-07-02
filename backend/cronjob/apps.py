@@ -12,7 +12,6 @@ class CronjobConfig(AppConfig):
 
     def ready(self):
         load_dotenv()
-        print(os.environ.get("ENABLE_SCHEDULER"))
         # Check if the script is running in the main process
         if os.environ.get("RUN_MAIN") == "true":
             # Check if the scheduler should be enabled
