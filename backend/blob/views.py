@@ -99,8 +99,6 @@ def get_all_detailed_results(request):
     collection = db["detailed_results"]
     try:
         documents = list(collection.find())
-        for doc in documents:
-            doc["_id"] = str(doc["_id"])
         return Response(documents, status=200, content_type="application/json")
     except Exception as e:
         return Response({'error': 'No data found'}, status=404)
@@ -108,11 +106,10 @@ def get_all_detailed_results(request):
 @api_view(["GET"])  
 def get_all_summary_results(request):
     db = MONGODB.get_db()
-    collection = db["summary_results"]
     try:
-        documents = list(collection.find())
-        for doc in documents:
-            doc["_id"] = str(doc["_id"])
+        summary_result_collection = db['summary_result']
+        results = list(summary_result_collection.find())
+        documents = MONGODB.serialize_object_ids(results)
         return Response(documents, status=200, content_type="application/json")
     except Exception as e:
         return Response({'error': 'No data found'}, status=404)
