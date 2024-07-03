@@ -124,10 +124,11 @@ def get_detailed_results_by_id(request, id):
 
     try:
         object_id = ObjectId(id)
-        document = collection.find_one({"_id": object_id})
+        document = collection.find_one({"call_id": object_id})
 
         if document:
             document["_id"] = str(document["_id"])
+            document["call_id"] = str(document["call_id"])
             return Response(document, status=200, content_type="application/json")
         else:
             return Response({'error': 'No data found'}, status=404)
@@ -142,7 +143,7 @@ def get_summary_results_by_id(request, id):
 
     try:
         object_id = ObjectId(id)
-        document = collection.find_one({"_id": object_id})
+        document = collection.find_one({"call_id": object_id})
 
         if document:
             document["_id"] = str(document["_id"])
