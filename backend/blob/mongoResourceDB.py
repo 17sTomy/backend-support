@@ -26,18 +26,6 @@ class MongoCommands():
         }
         calls_collection.insert_one(call_document)
     
-    def get_all_calls(self):
-        calls_collection = self.db['calls']
-        return list(calls_collection.find())
-    
-    def get_all_detailed_results(self):
-        detailed_result_collection = self.db['detailed_results']
-        return list(detailed_result_collection.find())
-    
-    def get_all_summary_results(self):
-        summary_result_collection = self.db['summary_results']
-        return list(summary_result_collection.find())
-    
     def serialize_object_ids(self, doc):
         if isinstance(doc, list):
             for item in doc:

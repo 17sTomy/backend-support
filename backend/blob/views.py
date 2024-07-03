@@ -1,3 +1,4 @@
+from bson import ObjectId
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -106,10 +107,48 @@ def get_all_detailed_results(request):
 @api_view(["GET"])  
 def get_all_summary_results(request):
     db = MONGODB.get_db()
+    collection = db['summary_results']
     try:
-        summary_result_collection = db['summary_result']
-        results = list(summary_result_collection.find())
-        documents = MONGODB.serialize_object_ids(results)
+        documents = list(collection.find())
+        for doc in documents:
+            doc["_id"] = str(doc["_id"])
+            doc["call_id"] = str(doc["call_id"])
         return Response(documents, status=200, content_type="application/json")
     except Exception as e:
         return Response({'error': 'No data found'}, status=404)
+    
+@api_view(["GET"])
+def get_detailed_results_by_id(request, id):
+    db = MONGODB.get_db()
+    collection = db["detailed_results"]
+
+    try:
+        object_id = ObjectId(id)
+        document = collection.find_one({"_id": object_id})
+
+        if document:
+            document["_id"] = str(document["_id"])
+            return Response(document, status=200, content_type="application/json")
+        else:
+            return Response({'error': 'No data found'}, status=404)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+    
+
+@api_view(["GET"])  
+def get_summary_results_by_id(request, id):
+    db = MONGODB.get_db()
+    collection = db["summary_results"]
+
+    try:
+        object_id = ObjectId(id)
+        document = collection.find_one({"_id": object_id})
+
+        if document:
+            document["_id"] = str(document["_id"])
+            document["call_id"] = str(document["call_id"])
+            return Response(document, status=200, content_type="application/json")
+        else:
+            return Response({'error': 'No data found'}, status=404)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
